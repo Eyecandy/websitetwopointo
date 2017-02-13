@@ -22,12 +22,14 @@ public class WebApp {
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
         String webappDirLocation = "src/main/webapp";
+
         StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
         File additionWebInfClasses = new File("target/classes");
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
                 additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
+
         tomcat.start();
         tomcat.getServer().await();
     }

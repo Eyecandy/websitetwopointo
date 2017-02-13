@@ -23,6 +23,7 @@ public class MySQLJava {
     private ResultSet resultSet2;
     private PreparedStatement preparedStatement;
     private PreparedStatement preparedStatement2;
+    String sql;
 
     public MySQLJava(String jdbcDriverStr, String jdbcURL) {
         this.jdbcDriverStr = jdbcDriverStr;
@@ -42,6 +43,12 @@ public class MySQLJava {
             statement2 = connection2.createStatement();
             resultSet2 = statement2.executeQuery("select * from users");
             //resultSet = statement.executeQuery("select * from HelloWorld;");
+            //removeUser("peter");
+            //addUser("peter","hollow");
+
+            //addSession("peter");
+            //displayUsers();
+
             //preparedStatement2 = connection2.prepareStatement("insert into test.users values ('admin','password')");
             //preparedStatement = connection.prepareStatement("insert into ok.HelloWorld values (13,19)");
             //preparedStatement2.executeUpdate();
@@ -57,32 +64,53 @@ public class MySQLJava {
             close();
         }
     }
+
+
     public int validateLogin(String username,String password) throws  Exception {
         readData();
         while (resultSet2.next()) {
-
             String existingUserName = resultSet2.getString("username");
             String existingPassword = resultSet2.getString("password");
-            //System.out.println(existingUserName);
-            //System.out.println(existingPassword);
+
             if (existingUserName.equals(username) && existingPassword.equals(password)) {
                 return 0;
-
             }
-
         }
         return -1;
-
     };
 
+    public void addSession(String username) throws  Exception {
+        String sql = "UPDATE test.users set session=1 where username="+"'"+username+"'";
+        System.out.println(sql);
+        preparedStatement2 = connection2.prepareStatement(sql);
+        preparedStatement2.executeUpdate();
+    }
+    public void removeSession(String username) throws  Exception {
+        String sql = "UPDATE test.users set session=0 where username="+"'"+username+"'";
+        preparedStatement2 = connection2.prepareStatement(sql);
+        preparedStatement2.executeUpdate();
 
-    private void getResultSet(ResultSet resultSet) throws Exception {
-        while (resultSet.next()) {
-            Integer email= resultSet.getInt("idHelloWorld");
-            Integer firstName = resultSet.getInt("supah");
-            System.out.print("emaili: " + email);
-            System.out.print(", firstname: " + firstName);
-            System.out.println();
+
+    }
+    public void addUser(String username, String password) throws Exception {
+        String sql = "insert into test.users values ('"+username+"','"+password+"','0')";
+        System.out.println(sql);
+        preparedStatement2 = connection2.prepareStatement(sql);
+        preparedStatement2.executeUpdate();
+    }
+
+    public void removeUser(String username) throws Exception{
+        sql = "DELETE FROM test.users where username=" +"'"+username+"'";
+        preparedStatement2 = connection2.prepareStatement(sql);
+        preparedStatement2.executeUpdate();
+    }
+
+    public void displayUsers()  throws Exception{
+
+        while (resultSet2.next()) {
+            String existingUserName = resultSet2.getString("username");
+            String existingPassword = resultSet2.getString("password");
+
         }
     }
 

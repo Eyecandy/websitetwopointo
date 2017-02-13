@@ -36,12 +36,12 @@ public class TestServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = req.getParameter("user");
         String password = req.getParameter("pass");
-
         System.out.println("{ User : " + username + "\n  Pass : " + password + "\n}");
         resp.setContentType("application/json");
         try {
             MySQLJava mySQLJava = new MySQLJava(MYSQL_DRIVER,MYSQL_URL);
             if (mySQLJava.validateLogin(username,password) == 0) {
+
                 System.out.println("SUCCESS!");
             }
             else {

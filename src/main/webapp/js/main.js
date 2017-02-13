@@ -20,6 +20,7 @@ function checkfirstChar(str) {
 }
 
 function checkUsername(str) {
+
 	if (isEmpty(str)) {
 		$output.html("Username field empty!");
 		return false;
@@ -54,6 +55,9 @@ function sendPost(data) {
 			console.log(typeof data);
 			console.log(data);
 			// add(couple);
+
+
+
 		},
 		error: function() {
 			// add(couple);
@@ -66,6 +70,8 @@ $("#btn-login").on('click', function() {
 	console.log("Login Button Clicked")
 	$output.html("");
 	$output2.html("");
+
+
 	var couple = {
 		user: $username.val(),
 		pass: $password.val()
