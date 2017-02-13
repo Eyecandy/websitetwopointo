@@ -47,7 +47,14 @@ public class MySQLJava {
             //addUser("peter","hollow");
 
             //addSession("peter");
-            //displayUsers();
+//            checkIfUserExist("peter");
+//            checkIfUserExist("joakim");
+//            checkIfUserExist("peter");
+
+
+           // System.out.println(checkIfUserExist("joakim"))
+            // System.out.println(checkIfUserExist("peter"));
+
 
             //preparedStatement2 = connection2.prepareStatement("insert into test.users values ('admin','password')");
             //preparedStatement = connection.prepareStatement("insert into ok.HelloWorld values (13,19)");
@@ -79,6 +86,8 @@ public class MySQLJava {
         return -1;
     };
 
+
+
     public void addSession(String username) throws  Exception {
         String sql = "UPDATE test.users set session=1 where username="+"'"+username+"'";
         System.out.println(sql);
@@ -89,31 +98,40 @@ public class MySQLJava {
         String sql = "UPDATE test.users set session=0 where username="+"'"+username+"'";
         preparedStatement2 = connection2.prepareStatement(sql);
         preparedStatement2.executeUpdate();
-
-
     }
     public void addUser(String username, String password) throws Exception {
+
         String sql = "insert into test.users values ('"+username+"','"+password+"','0')";
-        System.out.println(sql);
         preparedStatement2 = connection2.prepareStatement(sql);
         preparedStatement2.executeUpdate();
     }
-
     public void removeUser(String username) throws Exception{
         sql = "DELETE FROM test.users where username=" +"'"+username+"'";
         preparedStatement2 = connection2.prepareStatement(sql);
         preparedStatement2.executeUpdate();
     }
-
     public void displayUsers()  throws Exception{
-
         while (resultSet2.next()) {
             String existingUserName = resultSet2.getString("username");
             String existingPassword = resultSet2.getString("password");
-
+            System.out.println(existingUserName);
+            System.out.println(existingPassword);
         }
+        resultSet2.beforeFirst();
     }
 
+    public int checkIfUserExist(String username) throws  Exception{
+        while (resultSet2.next()) {
+            String exisingUserName = resultSet2.getString("username");
+            if (username.equals(exisingUserName)) {
+                resultSet2.beforeFirst();
+                System.out.println("Found");
+                return 1;
+               }
+        }
+        resultSet2.beforeFirst();
+        return 0;
+    }
     private void close() {
         try {
             if (resultSet != null) {
